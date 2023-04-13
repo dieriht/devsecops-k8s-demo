@@ -81,21 +81,15 @@
         </dependencies>
 </plugin>
 
-<!--# Changes for Software Composition Analysis Scan using Dependecy check-->
-    <plugin>
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-                <version>8.2.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-    </plugin>
-<!-- Depency Check Changes for SCA Ends Here -->
-
+<!--                   Dependency Check Plugin                   -->
+<plugin>
+   <groupId>org.owasp</groupId>
+   <artifactId>dependency-check-maven</artifactId>
+   <version>8.2.1</version>
+   <configuration>
+      <format>ALL</format>
+   </configuration>
+</plugin>
 
 		</plugins>
       
