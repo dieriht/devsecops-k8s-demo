@@ -2,6 +2,7 @@ pipeline {
   agent any
 
   stages {
+
     stage('Build Artifact - Maven') {
       steps {
         sh "mvn clean package -DskipTests=true"
@@ -9,13 +10,13 @@ pipeline {
       }
     }
 
-    stage('Unit Tests - JUnit and Jacoco') {
+    stage('Unit Tests - JUnit and JaCoCo') {
       steps {
         sh "mvn test"
       }
     }
 
-stage('SonarQube - SAST') {
+    stage('SonarQube - SAST') {
       steps {
         withSonarQubeEnv('SonarQube') {
           sh "mvn sonar:sonar -Dsonar.projectKey=numeric-aplications -Dsonar.host.url=http://devsecopdemo.eastus.cloudapp.azure.com:9000"
@@ -28,25 +29,18 @@ stage('SonarQube - SAST') {
       }
     }
 
-     stage('SCA Trivy Scan - Docker') {
+    stage('Vulnerability Scan - Docker ') {
       steps {
-        parallel(
-          "Dependency Scan": {
-            sh "mvn dependency-check:check"
-          },
-          "Trivy Scan": {
-            sh "bash trivy-docker-image-scan.sh"
-          }
-        )
+        sh "mvn dependency-check:check"
       }
     }
 
-  stage('Docker Build and Push') {
+    stage('Docker Build and Push') {
       steps {
         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
           sh 'printenv'
-          sh 'sudo docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
-          sh 'docker push dieriht/numeric-app:""$GIT_COMMIT""'
+          sh 'docker build -t siddharth67/numeric-app:""$GIT_COMMIT"" .'
+          sh 'docker push siddharth67/numeric-app:""$GIT_COMMIT""'
         }
       }
     }
@@ -58,17 +52,24 @@ stage('SonarQube - SAST') {
           sh "kubectl apply -f k8s_deployment_service.yaml"
         }
       }
-     }
+    }
+
+  }
 
   post {
     always {
       junit 'target/surefire-reports/*.xml'
       jacoco execPattern: 'target/jacoco.exec'
       dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
-      publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'owasp-zap-report', reportFiles: 'zap_report.html', reportName: 'HTML Report', reportTitles: 'OWASP ZAP HTML REPORT', useWrapperFileDirectly: true])
     }
- }
 
+    // success {
+
+    // }
+
+    // failure {
+
+    // }
   }
 
- }
+}
