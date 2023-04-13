@@ -57,6 +57,17 @@ stage('SonarQube - SAST') {
           sh "sed -i 's#replace#siddharth67/numeric-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
           sh "kubectl apply -f k8s_deployment_service.yaml"
         }
+
+    stage('OWASP ZAP - DAST') {
+      steps {
+         withKubeConfig([credentialsId: 'kubeconfig']) {
+          sh 'bash zap.sh'
+        }
+      }
+    }
+
+  }
+
       }
     }
 
@@ -67,6 +78,7 @@ stage('SonarQube - SAST') {
       junit 'target/surefire-reports/*.xml'
       jacoco execPattern: 'target/jacoco.exec'
       dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'owasp-zap-report', reportFiles: 'zap_report.html', reportName: 'OWASP ZAP HTML Report', reportTitles: 'OWASP ZAP HTML Report'])
     }
  }
 }
