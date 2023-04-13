@@ -59,8 +59,6 @@ stage('SonarQube - SAST') {
         }
       }
      }
-  }
-}
 
   post {
     always {
@@ -69,4 +67,8 @@ stage('SonarQube - SAST') {
       dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
       publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'owasp-zap-report', reportFiles: 'zap_report.html', reportName: 'HTML Report', reportTitles: 'OWASP ZAP HTML REPORT', useWrapperFileDirectly: true])
     }
+ }
+
+  }
+
  }
