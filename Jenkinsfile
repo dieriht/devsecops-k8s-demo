@@ -28,7 +28,7 @@ stage('SonarQube - SAST') {
       }
     }
 
-     stage('Vulnerability Scan - Docker') {
+     stage('SCA Trivy Scan - Docker') {
       steps {
         parallel(
           "Dependency Scan": {
