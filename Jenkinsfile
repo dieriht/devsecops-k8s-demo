@@ -13,12 +13,6 @@ pipeline {
       steps {
         sh "mvn test"
       }
-      post {
-        always {
-          junit 'target/surefire-reports/*.xml'
-          jacoco execPattern: 'target/jacoco.exec'
-        }
-      }
     }
 
 stage('SonarQube - SAST') {
@@ -34,18 +28,11 @@ stage('SonarQube - SAST') {
       }
     }
 
-    stage('Vulnerability SCA') {
+    stage('OWASP Dependency Check - SCA') {
       steps {
         sh "mvn dependency-check:check"
       }
-      post {
-        always {
-          dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
-        }
-      }
     }
-
-
 
   stage('Docker Build and Push') {
       steps {
@@ -67,4 +54,12 @@ stage('SonarQube - SAST') {
     }
 
   }
+
+  post {
+    always {
+      junit 'target/surefire-reports/*.xml'
+      jacoco execPattern: 'target/jacoco.exec'
+      dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+    }
+ }
 }
