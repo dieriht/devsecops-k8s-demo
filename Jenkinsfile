@@ -26,7 +26,7 @@ pipeline {
 
 
 #### Jacoco Plugin in pom.xml
-<!--                   Jacoco Plugin                   -->
+<!--                   Jacoco Pluginv2                  -->
 <plugin>
    <groupId>org.jacoco</groupId>
    <artifactId>jacoco-maven-plugin</artifactId>
