@@ -48,7 +48,7 @@
 			
 		</plugins>
       
-	  #### Jacoco Plugin in pom.xml
+	
 <!--                   Jacoco Plugin                   -->
 <plugin>
    <groupId>org.jacoco</groupId>
