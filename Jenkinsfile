@@ -1,4 +1,3 @@
-### Jenkinsfile
 pipeline {
   agent any
 
@@ -21,28 +20,25 @@ pipeline {
         }
       }
     }
+  
+  stage('Docker Build and Push') {
+      steps {
+        withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
+          sh 'printenv'
+          sh 'docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
+          sh 'docker push dieriht/numeric-app:""$GIT_COMMIT""'
+        }
+      }
+    }
+    
+    stage('Kubernetes Deployment - DEV') {
+      steps {
+        withKubeConfig([credentialsId: 'kubeconfig']) {
+          sh "sed -i 's#replace#siddharth67/numeric-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
+          sh "kubectl apply -f k8s_deployment_service.yaml"
+        }
+      }
+    }
+
   }
 }
-
-
-#### Jacoco Plugin in pom.xml
-<!--                   Jacoco Plugin                   -->
-<plugin>
-   <groupId>org.jacoco</groupId>
-   <artifactId>jacoco-maven-plugin</artifactId>
-   <version>0.8.5</version>
-   <executions>
-      <execution>
-         <goals>
-            <goal>prepare-agent</goal>
-         </goals>
-      </execution>
-      <execution>
-         <id>report</id>
-         <phase>test</phase>
-         <goals>
-            <goal>report</goal>
-         </goals>
-      </execution>
-   </executions>
-</plugin>
