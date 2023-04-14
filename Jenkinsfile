@@ -30,7 +30,7 @@ pipeline {
 
     stage('Docker Build and Push') {
       steps {
-        sh 'docker login -u dieriht'
+        sh 'docker login -u dieriht -p Matrix23Fox2023.'
         withDockerRegistry([credentialsId: "dockerh", url: ""]) {
           sh "printenv"
           sh 'docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
