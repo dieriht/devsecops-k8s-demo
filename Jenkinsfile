@@ -30,11 +30,11 @@ pipeline {
 
     stage('Docker Build and Push') {
       steps {
-        sh 'docker login -u dieriht'
+        sh "docker login -u dieriht"
         withDockerRegistry([credentialsId: "dockerh", url: ""]) {
-          sh 'printenv'
-          sh 'docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
-          sh 'docker push dieriht/numeric-app:""$GIT_COMMIT""'
+          sh "printenv"
+          sh "docker build -t dieriht/numeric-app:""$GIT_COMMIT"" ."
+          sh "docker push dieriht/numeric-app:""$GIT_COMMIT"""
         }
       }
     }
