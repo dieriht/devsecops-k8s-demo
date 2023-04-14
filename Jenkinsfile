@@ -33,7 +33,7 @@ pipeline {
        
           sh 'printenv'
           sh 'sudo docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'  
-          sh 'docker push dieriht/numeric-app:""$GIT_COMMIT""'
+          sh 'sudo docker push dieriht/numeric-app:""$GIT_COMMIT""'
         
       }
     }
