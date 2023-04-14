@@ -28,16 +28,6 @@ pipeline {
       }
     }
 
-    stage('Docker Build and Push') {
-      steps {
-        withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
-          sh 'printenv'
-          sh 'sudo docker build -t dherrera/numeric-app:""$GIT_COMMIT"" .'
-          sh 'sudo docker push dherrera/numeric-app:""$GIT_COMMIT""'
-        }
-      }
-    }
-
     stage('Kubernetes Deployment - DEV') {
       steps {
         withKubeConfig([credentialsId: 'kubeconfig']) {
