@@ -20,20 +20,20 @@ import org.junit.jupiter.api.Test;
 
 class NumericApplicationTests {
 
+    private Object mockMvc;
+
     @Test
     void smallerThanOrEqualToFiftyMessage() throws Exception {
-        this.mockMvc.perform(get("/compare/50")).andDo(print()).andExpect(status().isOk())
+        ((MockMvc) this.mockMvc).perform(get("/compare/50")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("Smaller than or equal to 50"));
-    void smallerThanOrEqualToFiftyMessage() throws Exception {
+    }
 
     @Test
     void greaterThanFiftyMessage() throws Exception {
-        this.mockMvc.perform(get("/compare/51")).andDo(print()).andExpect(status().isOk())
+        ((MockMvc) this.mockMvc).perform(get("/compare/51")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("Greater than 50"));
-    void greaterThanFiftyMessage() throws Exception {
 
-    @Test
-    void welcomeMessage() throws Exception {
-    
+
+    }
 
 }
