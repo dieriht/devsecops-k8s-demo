@@ -22,7 +22,7 @@ pipeline {
       }
     }
 
-    stage('Vulnerability Scan - Docker ') {
+    stage('Vulnerability Scan SCA - Docker ') {
       steps {
         sh "mvn dependency-check:check"
       }
