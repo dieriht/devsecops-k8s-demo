@@ -35,15 +35,15 @@ pipeline {
       steps {
           sh 'echo docker login -u $DOCKERHUB_CREDENTIAL --password-stdin'
           sh 'printenv'
-          sh 'docker build -t siddharth67/numeric-app:""$GIT_COMMIT"" .'
-          sh 'docker push siddharth67/numeric-app:""$GIT_COMMIT""'
+          sh 'docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
+          sh 'docker push dieriht/numeric-app:""$GIT_COMMIT""'
       }
     }
 
     stage('Kubernetes Deployment - DEV') {
       steps {
         withKubeConfig([credentialsId: 'kubeconfig']) {
-          sh "sed -i 's#replace#siddharth67/numeric-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
+          sh "sed -i 's#replace#dieriht/numeric-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
           sh "kubectl apply -f k8s_deployment_service.yaml"
         }
       }
