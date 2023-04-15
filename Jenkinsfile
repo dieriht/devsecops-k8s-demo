@@ -30,9 +30,11 @@ pipeline {
 
   stage('Docker Build and Push') {
       steps {
-        
+          sh 'docker login -u dieriht -p TenkaiJoso2023. --password-stdin'
+          sh 'printenv'
+          sh 'docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
+          sh 'docker push dieriht/numeric-app:""$GIT_COMMIT""'
         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
-          sh 'docker login -u dieriht --password-stdin'
           sh 'printenv'
           sh 'docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
           sh 'docker push dieriht/numeric-app:""$GIT_COMMIT""'
@@ -42,6 +44,7 @@ pipeline {
 
     stage('Kubernetes Deployment - DEV') {
       steps {
+        
         
         withKubeConfig([credentialsId: 'kubeconfig']) {
           sh "sed -i 's#replace#dieriht/numeric-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
