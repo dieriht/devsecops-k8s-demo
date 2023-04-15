@@ -1,6 +1,9 @@
 pipeline {
   agent any
 
+ environment {
+   DOCKERHUB_CREDENTIAL = credentials('docker-hub')
+ }
   stages {
 
     stage('Build Artifact - Maven') {
@@ -30,7 +33,10 @@ pipeline {
 
   stage('Docker Build and Push') {
       steps {
-        sh 'docker login --username ${{ secrets.docker-hub }} --password-stdin'
+        sh 'docker login -u $DOCKERHUB_CREDENTIAL --password-stdin'
+          sh 'printenv'
+          sh 'docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
+          sh 'docker push dieriht/numeric-app:""$GIT_COMMIT""'
         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
           sh 'printenv'
           sh 'docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
