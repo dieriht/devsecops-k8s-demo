@@ -33,10 +33,11 @@ pipeline {
 
   stage('Docker Build and Push') {
       steps {
-          sh 'echo docker login -u $DOCKERHUB_CREDENTIAL --password-stdin'
+        withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
           sh 'printenv'
           sh 'docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
-          sh 'sudo docker push dieriht/numeric-app:""$GIT_COMMIT""'
+          sh 'docker push dieriht/numeric-app:""$GIT_COMMIT""'
+        }
       }
     }
 
