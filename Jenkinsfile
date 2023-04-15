@@ -30,7 +30,7 @@ pipeline {
 
   stage('Docker Build and Push') {
       steps {
-        
+        sh 'docker login --username ${{ secrets.docker-hub }} --password-stdin'
         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
           sh 'printenv'
           sh 'docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
