@@ -1,9 +1,7 @@
 pipeline {
   agent any
 
- environment {
-   DOCKERHUB_CREDENTIAL = credentials('docker-hub')
- }
+
   stages {
 
     stage('Build Artifact - Maven') {
