@@ -37,7 +37,7 @@ pipeline {
           sh 'printenv'
           sh 'docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
           sh 'docker tag firstimage dieriht/numeric-app'
-          sh 'docker push dieriht/numeric-app:""$GIT_COMMIT""'
+          sh 'sudo docker push dieriht/numeric-app:""$GIT_COMMIT""'
       }
     }
 
