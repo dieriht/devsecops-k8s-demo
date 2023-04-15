@@ -36,7 +36,6 @@ pipeline {
           sh 'echo docker login -u $DOCKERHUB_CREDENTIAL --password-stdin'
           sh 'printenv'
           sh 'docker build -t dieriht/numeric-app:""$GIT_COMMIT"" .'
-          sh 'docker tag dieriht/numeric-app dieriht/numeric-app-reload'
           sh 'docker push dieriht/numeric-app-reload:""$GIT_COMMIT""'
       }
     }
