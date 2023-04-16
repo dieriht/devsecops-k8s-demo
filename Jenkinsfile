@@ -80,6 +80,7 @@ environment {
       jacoco execPattern: 'target/jacoco.exec'
       pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
       dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'trivy-report', reportFiles: 'trivy_report.html', reportName: 'HTML Report Trivy', reportTitles: 'TRIVY HTLM REPORT', useWrapperFileDirectly: true])
       publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'owasp-zap-report', reportFiles: 'zap_report.html', reportName: 'HTML Report OWASP ZAP', reportTitles: 'OWASP ZAP HTLM REPORT', useWrapperFileDirectly: true])
     }
 

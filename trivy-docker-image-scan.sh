@@ -6,6 +6,12 @@ echo $dockerImageName
 docker run --rm -v $WORKSPACE:/root/.cache/ aquasec/trivy:0.18.3 -q image --exit-code 0 --severity HIGH --light openjdk:8-jdk-alpine
 docker run --rm -v $WORKSPACE:/root/.cache/ aquasec/trivy:0.18.3 -q image --exit-code 1 --severity CRITICAL --light openjdk:8-jdk-alpine
 
+trivy image --format template --template "@contrib/html.tpl" -o report.html openjdk:8-jdk-alpine
+
+# HTML Report
+ sudo mkdir -p trivy-report
+ sudo mv trivy_report.html trivy-report
+
 
     # Trivy scan result processing
     exit_code=$?
