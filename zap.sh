@@ -7,7 +7,7 @@ PORT=$(kubectl get services devsecops-svc -o json | jq .spec.ports[].nodePort)
 chmod 777 $(pwd)
 echo $(id -u):$(id -g)
 #docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t $IP:$PORT -f openapi -r zap_report.html
-sudo docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t $applicationUR:$PORT -f openapi -r zap_report.html
+sudo docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t $applicationURL:$PORT -f openapi -r zap_report.html
 
 exit_code=$?
 
