@@ -18,7 +18,7 @@ spec:
       containers:
       - image: replace
         name: devsecops-container
-      securityContext:
+        securityContext:
           runAsNonRoot: true
           runAsUser: 100
 ---
