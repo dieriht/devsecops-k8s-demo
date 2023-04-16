@@ -1,13 +1,13 @@
 #!/bin/bash
 
-IP=$(ip -j a | jq -r '.[] | select(.ifname == "eth0") | .addr_info[].local')
+applicationURL=$(http://devsecops-demo.eastus.cloudapp.azure.com)
 PORT=$(kubectl get services devsecops-svc -o json | jq .spec.ports[].nodePort)
 
 # first run this
 chmod 777 $(pwd)
 echo $(id -u):$(id -g)
-docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t $IP:$PORT -f openapi -r zap_report.html
-
+#docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t $IP:$PORT -f openapi -r zap_report.html
+sudo docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t $applicationUR:$PORT -f openapi -r zap_report.html
 
 exit_code=$?
 
