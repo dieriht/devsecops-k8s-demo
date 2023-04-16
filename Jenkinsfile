@@ -97,14 +97,6 @@ environment {
       }
     }
 
-    stage('OWASP ZAP - DAST') {
-      steps {
-        withKubeConfig([credentialsId: 'kubeconfig']) {
-          sh "bash zap.sh"
-        }
-      }
-    }
-
   stage('Integration Tests - DEV') {
       steps {
         script {
@@ -121,6 +113,14 @@ environment {
         }
       }
     } 
+
+    stage('OWASP ZAP - DAST') {
+      steps {
+        withKubeConfig([credentialsId: 'kubeconfig']) {
+          sh "bash zap.sh"
+        }
+      }
+    }
 
   }
 
