@@ -1,6 +1,9 @@
 pipeline {
   agent any
 
+environment {
+ applicationURL="http://devsecops-demo.eastus.cloudapp.azure.com"
+}
 
   stages {
 
