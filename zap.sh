@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PORT=$(sudo kubectl -n default get svc ${serviceName} -o json | jq .spec.ports[].nodePort)
+PORT=$(kubectl get services devsecops-svc -o json | jq .spec.ports[].nodePort)
 
 # first run this
 chmod 777 $(pwd)
