@@ -1,6 +1,6 @@
 #!/bin/bash
 
-applicationURL=$(http://devsecops-demo.eastus.cloudapp.azure.com)
+applicationURL=$("http://devsecops-demo.eastus.cloudapp.azure.com")
 PORT=$(kubectl get services devsecops-svc -o json | jq .spec.ports[].nodePort)
 
 # first run this
