@@ -20,6 +20,12 @@ environment {
       }
     }
 
+    stage('Mutation Tests - PIT') {
+      steps {
+         sh "mvn org.pitest:pitest-maven:mutationCoverage"
+      }
+    }
+
   stage('SonarQube - SAST') {
       steps {
         sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.host.url=http://devsecopsr.eastus.cloudapp.azure.com:9000 -Dsonar.login=b1c2af7799f832cb4b578dffaf92938064398721"
@@ -65,6 +71,7 @@ environment {
     always {
       junit 'target/surefire-reports/*.xml'
       jacoco execPattern: 'target/jacoco.exec'
+      pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
       dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
       publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'owasp-zap-report', reportFiles: 'zap_report.html', reportName: 'HTML Report OWASP ZAP', reportTitles: 'OWASP ZAP HTLM REPORT', useWrapperFileDirectly: true])
     }
