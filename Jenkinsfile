@@ -2,7 +2,12 @@ pipeline {
   agent any
 
 environment {
- applicationURL="http://devsecopsr.eastus.cloudapp.azure.com"
+    deploymentName = "devsecops"
+    containerName = "devsecops-container"
+    serviceName = "devsecops-svc"
+    imageName = "dieriht/numeric-app:${GIT_COMMIT}"
+    applicationURL="http://devsecopsr.eastus.cloudapp.azure.com"
+    applicationURI = "/increment/99"
 }
 
   stages {
@@ -58,12 +63,20 @@ environment {
       }
     }
 
-    stage('Kubernetes Deployment - DEV') {
+  stage('K8S Deployment - DEV') {
       steps {
-        withKubeConfig([credentialsId: 'kubeconfig']) {
-          sh "sed -i 's#replace#dieriht/numeric-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
-          sh "kubectl apply -f k8s_deployment_service.yaml"
-        }
+        parallel(
+          "Deployment": {
+            withKubeConfig([credentialsId: 'kubeconfig']) {
+              sh "bash k8s-deployment.sh"
+            }
+          },
+          "Rollout Status": {
+            withKubeConfig([credentialsId: 'kubeconfig']) {
+              sh "bash k8s-deployment-rollout-status.sh"
+            }
+          }
+        )
       }
     }
 
