@@ -136,6 +136,9 @@ environment {
             "Kubelet": {
               sh "bash cis-kubelet.sh"
             }
+            "All": {
+              sh "sudo bash cis-all.sh"
+            }
           )
 
         }
