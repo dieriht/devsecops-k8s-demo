@@ -1,7 +1,7 @@
 #!/bin/bash
 #cis-master.sh
 
-total_fail=$(kube-bench --json | jq .Totals.total_fail)
+total_fail=$($cis --json | jq .Totals.total_fail)
 
 if [[ "$total_fail" -ne 0 ]];
         then
@@ -10,3 +10,5 @@ if [[ "$total_fail" -ne 0 ]];
         else
                 echo "CIS Benchmark Passed for MASTER - 1.2.7, 1.2.8, 1.2.9"
 fi;
+
+
