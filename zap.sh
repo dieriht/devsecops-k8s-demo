@@ -8,7 +8,7 @@ chmod 777 $(pwd)
 echo $(id -u):$(id -g)
 
 #sudo docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t $applicationURL:$PORT -f openapi -r zap_report.html
-sudo docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t https://aks-wappe-ingress-dev.eastus2.cloudapp.azure.com/payment/receipt -f openapi -r zap_report.html
+sudo docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t https://apimngr-genesis-cert.azure-api.net/user-rol/usersandroles/v1/role/B2C_VISOR_ADMINISTRADOR -f openapi -r zap_report.html
 # HTML Report
  sudo mkdir -p owasp-zap-report
  sudo mv zap_report.html owasp-zap-report
